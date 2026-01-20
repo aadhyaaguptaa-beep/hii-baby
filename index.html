@@ -1,51 +1,121 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A + D 💌</title>
-
 <style>
 body {
-  background: #fff5fa;
+  margin: 0;
+  padding: 0;
   font-family: "Comic Sans MS", cursive;
-  text-align: center;
+  background: linear-gradient(to bottom, #fff5fa, #ffe0f0);
   overflow-x: hidden;
+  position: relative;
+  text-align: center;
 }
 
 h1 {
+  font-size: 3em;
   transform: rotate(-3deg);
+  margin-top: 50px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+h1:hover {
+  transform: rotate(0deg) scale(1.1);
 }
 
-.letter {
+.letter, .note {
   background: white;
   padding: 20px;
-  margin: 20px;
+  margin: 20px auto;
   border: 3px dashed pink;
   transform: rotate(2deg);
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 5px 5px 15px rgba(255, 192, 203, 0.4);
+  cursor: pointer;
 }
 
 button {
   background: pink;
   border: 2px solid hotpink;
-  padding: 10px;
+  padding: 10px 20px;
   transform: rotate(-2deg);
   cursor: pointer;
+  font-size: 16px;
+  margin: 20px;
+  transition: transform 0.2s, background 0.2s;
+}
+button:hover {
+  transform: rotate(-2deg) scale(1.1);
+  background: #ffb6c1;
 }
 
 .sticker {
   font-size: 30px;
   position: absolute;
+  animation: floatSticker 5s ease-in-out infinite;
 }
 
+@keyframes floatSticker {
+  0%, 100% { transform: translateY(0px) rotate(0deg);}
+  50% { transform: translateY(-15px) rotate(15deg);}
+}
+
+ul {
+  text-align: left;
+  display: inline-block;
+  margin-top: 0;
+}
+
+.photo-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px;
+}
+
+.photo-grid img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: 3px solid pink;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.photo-grid img:hover {
+  transform: scale(1.1) rotate(3deg);
+}
+
+video {
+  margin: 15px 0;
+  width: 300px;
+  border: 3px solid pink;
+  border-radius: 10px;
+}
+
+.note-content {
+  display: none;
+  font-weight: bold;
+  color: hotpink;
+}
 </style>
 </head>
-
 <body>
 
+<!-- Floating stickers -->
 <div class="sticker" style="top:20px;left:10px;">🦆</div>
 <div class="sticker" style="top:60px;right:20px;">🐸</div>
 <div class="sticker" style="top:120px;left:40px;">⭐</div>
+<div class="sticker" style="top:200px;right:50px;">🌸</div>
+<div class="sticker" style="top:300px;left:150px;">🍓</div>
 
-<h1>hi baby &lt;3</h1>
+<h1>A + D 💌</h1>
 
 <div class="letter">
 <p>
@@ -59,9 +129,7 @@ A + D since <b>18 nov 2025</b>
 </p>
 </div>
 
-<button onclick="alert('CONGRATS YOU LOVE ME')">
-click if you love me
-</button>
+<button onclick="showLove()">click if you love me</button>
 
 <h3>dumb reasons i love you</h3>
 <ul>
@@ -75,23 +143,75 @@ click if you love me
 <li>HOT GOSS moments</li>
 </ul>
 
+<h3>❤️ Our Photos ❤️</h3>
+<div class="photo-grid">
+  <img src="https://via.placeholder.com/150" alt="Photo 1">
+  <img src="https://via.placeholder.com/150" alt="Photo 2">
+  <img src="https://via.placeholder.com/150" alt="Photo 3">
+</div>
+
+<h3>🎥 Our Videos 🎥</h3>
+<video controls>
+  <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+<h3>💌 Love Notes 💌</h3>
+<div class="note" onclick="toggleNote(this)">
+  Click to read a love note!
+  <p class="note-content">You make my heart skip beats every single day 💖</p>
+</div>
+<div class="note" onclick="toggleNote(this)">
+  Another secret note!
+  <p class="note-content">I love our silly inside jokes 😘</p>
+</div>
+
 <script>
+// Heart fall animation
 setInterval(() => {
   let heart = document.createElement("div");
   heart.innerHTML = "💗";
   heart.style.position = "fixed";
   heart.style.left = Math.random()*100 + "vw";
   heart.style.top = "-10px";
+  heart.style.fontSize = Math.random() * 20 + 20 + "px";
   document.body.appendChild(heart);
 
   let fall = setInterval(() => {
-    heart.style.top =
-      parseInt(heart.style.top) + 2 + "px";
+    heart.style.top = parseInt(heart.style.top) + 2 + "px";
   }, 30);
 
-  setTimeout(()=>{clearInterval(fall); heart.remove();},4000);
+  setTimeout(() => { clearInterval(fall); heart.remove(); }, 4000);
 }, 300);
+
+// Confetti/heart burst for button
+function showLove() {
+  alert("CONGRATS YOU LOVE ME 💖");
+  for(let i=0;i<30;i++){
+    let h = document.createElement("div");
+    h.innerHTML = "💖";
+    h.style.position = "fixed";
+    h.style.left = Math.random()*100 + "vw";
+    h.style.top = "50vh";
+    h.style.fontSize = Math.random()*20+15+"px";
+    h.style.transition = "all 1s ease-out";
+    document.body.appendChild(h);
+    setTimeout(()=>{
+      h.style.top = (Math.random()*100) + "vh";
+      h.style.left = (Math.random()*100) + "vw";
+      h.style.opacity = 0;
+    },50);
+    setTimeout(()=>{h.remove()},1000);
+  }
+}
+
+// Toggle love notes
+function toggleNote(note) {
+  let content = note.querySelector(".note-content");
+  content.style.display = content.style.display === "block" ? "none" : "block";
+}
 </script>
 
 </body>
 </html>
+
